@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>時間までのカウントダウン</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .timer {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>次の時間までのカウントダウン</h2>
+  <div class="timer" id="timer1">9:00 まで: --:--:--</div>
+  <div class="timer" id="timer2">12:00 まで: --:--:--</div>
+  <div class="timer" id="timer3">15:00 まで: --:--:--</div>
+  <div class="timer" id="timer4">18:00 まで: --:--:--</div>
+
+  <script>
+    function updateTimers() {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const times = [9, 12, 15, 18];
+      const timers = ["timer1", "timer2", "timer3", "timer4"];
+
+      for (let i = 0; i < times.length; i++) {
+        let target = new Date(today);
+        target.setHours(times[i], 0, 0, 0);
+
+        if (target <= now) {
+          target.setDate(target.getDate() + 1);
+        }
+
+        const diff = target - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById(timers[i]).textContent =
+          times[i] + ":00 まで: " +
+          String(hours).padStart(2, '0') + ":" +
+          String(minutes).padStart(2, '0') + ":" +
+          String(seconds).padStart(2, '0');
+      }
+    }
+
+    setInterval(updateTimers, 1000);
+    updateTimers();
+  </script>
+</body>
+</html>
